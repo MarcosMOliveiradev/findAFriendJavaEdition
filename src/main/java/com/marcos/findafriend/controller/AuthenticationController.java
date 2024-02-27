@@ -1,5 +1,8 @@
 package com.marcos.findafriend.controller;
 
+import com.marcos.findafriend.application.entites.user.LoginResponseDTO;
+import com.marcos.findafriend.application.entites.user.User;
+import com.marcos.findafriend.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +21,9 @@ import jakarta.validation.Valid;
 public class AuthenticationController {
 
     @Autowired
+    TokenService tokenService;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
     
     @PostMapping("/login")
@@ -25,6 +31,8 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 }

@@ -1,5 +1,6 @@
 package com.marcos.findafriend.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,11 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.findafriend.application.entites.user.User;
 import com.marcos.findafriend.application.entites.user.UserDTO;
-import com.marcos.findafriend.application.use_case.CreateUsersUseCase;
+import com.marcos.findafriend.application.use_case.user.CreateUsersUseCase;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
 public class CreateUserController {
+    
+    @Autowired
     private final CreateUsersUseCase created;
 
     public CreateUserController(CreateUsersUseCase service) {
@@ -20,8 +25,9 @@ public class CreateUserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> create( @RequestBody UserDTO data) {
+    public ResponseEntity<User> create( @Valid @RequestBody UserDTO data) {
         User createUser = this.created.created(data);
+        if (createUser == null) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok().body(createUser);
     }
 }

@@ -1,8 +1,8 @@
 package com.marcos.findafriend.application.entites.pets;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -31,7 +31,7 @@ public class Pets {
     private String requisitos;
 
     @NotBlank
-    private String user;
+    private String users;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

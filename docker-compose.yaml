@@ -4,7 +4,7 @@ services:
     postgres:
         image: postgres
         ports:
-          - 5432:5432
+          - 3339:5432
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: abc.123

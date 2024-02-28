@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcos.findafriend.application.entites.user.CreateUserResponseDTO;
 import com.marcos.findafriend.application.entites.user.User;
 import com.marcos.findafriend.application.entites.user.UserDTO;
 import com.marcos.findafriend.application.use_case.user.CreateUsersUseCase;
@@ -25,9 +26,10 @@ public class CreateUserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> create( @Valid @RequestBody UserDTO data) {
+    public ResponseEntity<CreateUserResponseDTO> create( @Valid @RequestBody UserDTO data) {
         User createUser = this.created.created(data);
         if (createUser == null) return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok().body(createUser);
+        CreateUserResponseDTO user = new CreateUserResponseDTO(createUser.getName(), createUser.getEmail(), createUser.getRole());
+        return ResponseEntity.ok().body(user);
     }
 }

@@ -1,4 +1,4 @@
-package com.marcos.findafriend.controller;
+package com.marcos.findafriend.controller.users;
 
 import com.marcos.findafriend.application.entites.user.LoginResponseDTO;
 import com.marcos.findafriend.application.entites.user.User;

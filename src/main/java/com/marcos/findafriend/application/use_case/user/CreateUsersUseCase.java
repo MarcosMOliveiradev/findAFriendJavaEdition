@@ -18,7 +18,9 @@ public class CreateUsersUseCase {
     private UsersRepositories repository;
 
     public User created(UserDTO data) {
-        if(this.repository.findByEmail(data.email()) != null) return null;
+        if(this.repository.findByEmail(data.email()) != null) {
+            return null;
+        }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
 

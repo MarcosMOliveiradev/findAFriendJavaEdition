@@ -36,7 +36,7 @@ public class UserController {
         ExceptionDTO UserAlredyExists = new ExceptionDTO("User alredy exists!", 409);
         if (createUser == null) return ResponseEntity.status(HttpStatus.CONFLICT).body(UserAlredyExists);
 
-        CreateUserResponseDTO user = new CreateUserResponseDTO(createUser.getName(), createUser.getEmail(), createUser.getRole());
+        CreateUserResponseDTO user = new CreateUserResponseDTO(createUser.getName(), createUser.getEmail(), createUser.getRole(), createUser.getId());
         return ResponseEntity.ok().body(user);
     }
 

@@ -2,8 +2,6 @@ package com.marcos.findafriend.controller.users;
 
 import com.marcos.findafriend.application.use_case.user.ListUsersUseCase;
 import com.marcos.findafriend.controller.exceptions.ExceptionDTO;
-import com.marcos.findafriend.infra.security.TokenService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +24,7 @@ public class UserController {
     private final CreateUsersUseCase created;
     private final ListUsersUseCase list;
 
-    @Autowired
-    private TokenService tokenService;
-
-    public UserController(CreateUsersUseCase service, ListUsersUseCase list, TokenService tokenService) {
+    private UserController(CreateUsersUseCase service, ListUsersUseCase list) {
         this.created = service;
         this.list = list;
     }
@@ -47,12 +42,7 @@ public class UserController {
 
 
     @GetMapping("/list")
-    public ResponseEntity listUser(HttpServletRequest request) {
-        var auth = request.getHeader("Authorization");
-        String token = auth.replace("Bearer ", "");
-
-        System.out.println(this.tokenService.validateToken(token));
-
+    public ResponseEntity listUser() {
         List<CreateUserResponseDTO> listUsers = this.list.getUsers();
         return ResponseEntity.ok().body(listUsers);
     }

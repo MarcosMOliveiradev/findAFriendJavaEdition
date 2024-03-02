@@ -10,9 +10,6 @@ import com.marcos.findafriend.repositories.UsersRepositories;
 
 import lombok.RequiredArgsConstructor;
 
-import java.net.http.HttpHeaders;
-import java.net.http.HttpRequest;
-
 @Service
 @RequiredArgsConstructor
 public class CreateUsersUseCase {

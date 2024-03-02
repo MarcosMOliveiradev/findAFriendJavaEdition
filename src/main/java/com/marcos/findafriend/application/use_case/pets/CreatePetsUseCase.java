@@ -1,11 +1,11 @@
 package com.marcos.findafriend.application.use_case.pets;
 
 import com.marcos.findafriend.application.entites.pets.Pets;
+import com.marcos.findafriend.application.entites.pets.PetsDTO;
 import com.marcos.findafriend.repositories.PetsRepositories;
 import com.marcos.findafriend.repositories.UsersRepositories;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,10 +19,21 @@ public class CreatePetsUseCase {
     @Autowired
     private final UsersRepositories usersRepositories;
 
-    public void create(String email, Pets pets) {
+    public Pets create(String email, PetsDTO data) {
         UUID user = this.usersRepositories.findUserByEmail(email).getId();
 
-        Pets createPet = new Pets();
-
+        Pets createPet = new Pets(
+            data.name(),
+            data.descricao(),
+            data.idade(),
+            data.energia(), 
+            data.porte(),
+            data.independencia(),
+            data.fotos(),
+            data.requisitos(),
+            user
+        );
+        
+        return this.petsRepositories.save(createPet);
     }
 }

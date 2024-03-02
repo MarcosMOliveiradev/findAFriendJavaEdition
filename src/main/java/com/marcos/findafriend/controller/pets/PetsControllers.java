@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcos.findafriend.application.entites.pets.Pets;
 import com.marcos.findafriend.application.entites.pets.PetsDTO;
+import com.marcos.findafriend.application.entites.pets.PetsResponseDTO;
+import com.marcos.findafriend.application.entites.user.User;
 import com.marcos.findafriend.application.use_case.pets.CreatePetsUseCase;
 import com.marcos.findafriend.infra.security.TokenService;
 
@@ -28,12 +31,17 @@ public class PetsControllers {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<@Valid PetsDTO> create(@Valid @RequestBody PetsDTO data, HttpServletRequest request) {
+    public ResponseEntity<?> create(@Valid @RequestBody PetsDTO data, HttpServletRequest request) {
         var auth = request.getHeader("Authorization");
         String token = auth.replace("Bearer ", "");
         String email = this.tokenService.validateToken(token);
 
-        this.createPetsUseCase.create(email, data);
-        return ResponseEntity.ok().body(data);
+        Pets pets = this.createPetsUseCase.create(email, data);
+
+        if (pets == null) {
+            return ResponseEntity.badRequest().body("Voçê não tem permissão para cadastrar um pet");
+        }
+        PetsResponseDTO responsePets = new PetsResponseDTO(pets);
+        return ResponseEntity.ok().body(responsePets);
     }
 }

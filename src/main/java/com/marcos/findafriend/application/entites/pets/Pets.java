@@ -6,12 +6,14 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.marcos.findafriend.application.entites.user.User;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
@@ -31,8 +33,9 @@ public class Pets {
     private List<String> fotos;
     private String requisitos;
 
-    @NotNull(message = "Usuario não pode esta em branco")
-    private UUID users;
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User users;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -46,7 +49,7 @@ public class Pets {
         String independencia,
         List<String> fotos,
         String requisitos,
-        UUID users
+        User users
     ){
         this.name = name;
         this.descricao = descricao;

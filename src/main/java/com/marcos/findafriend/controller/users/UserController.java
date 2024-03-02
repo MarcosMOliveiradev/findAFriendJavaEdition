@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity create(@Valid @RequestBody UserDTO data) {
+    public ResponseEntity<?> create(@Valid @RequestBody UserDTO data) {
         User createUser = this.created.created(data);
 
        ExceptionDTO UserAlredyExists = new ExceptionDTO("User alredy exists!", 409);
@@ -42,7 +42,7 @@ public class UserController {
 
 
     @GetMapping("/list")
-    public ResponseEntity listUser() {
+    public ResponseEntity<?> listUser() {
         List<CreateUserResponseDTO> listUsers = this.list.getUsers();
         return ResponseEntity.ok().body(listUsers);
     }

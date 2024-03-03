@@ -40,6 +40,9 @@ public class Pets {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    public Pets() {
+    }
+    
     public Pets(
         String name,
         String descricao,

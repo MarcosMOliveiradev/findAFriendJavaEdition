@@ -11,4 +11,5 @@ import com.marcos.findafriend.application.entites.user.User;
 public interface UsersRepositories extends JpaRepository<User, UUID> {
     UserDetails findByEmail(String email);
     User findUserByEmail(String email);
+
 }

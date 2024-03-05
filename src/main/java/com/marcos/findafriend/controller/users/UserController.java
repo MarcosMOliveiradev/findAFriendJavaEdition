@@ -15,6 +15,8 @@ import com.marcos.findafriend.application.use_case.user.CreateUsersUseCase;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +24,8 @@ public class UserController {
     
     @Autowired
     private final CreateUsersUseCase created;
+
+    @Autowired
     private final ListUsersUseCase list;
 
     private UserController(CreateUsersUseCase service, ListUsersUseCase list) {
@@ -45,5 +49,18 @@ public class UserController {
     public ResponseEntity<?> listUser() {
         List<CreateUserResponseDTO> listUsers = this.list.getUsers();
         return ResponseEntity.ok().body(listUsers);
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<CreateUserResponseDTO> listUserId(@PathVariable("id") String id) {
+        UUID parsId = UUID.fromString(id);
+
+        Optional<User> OptionalUser = this.list.ListForId(parsId);
+        User userId = OptionalUser.get();
+
+        CreateUserResponseDTO user = new CreateUserResponseDTO(userId);
+
+        return ResponseEntity.ok().body(user);
+
     }
 }

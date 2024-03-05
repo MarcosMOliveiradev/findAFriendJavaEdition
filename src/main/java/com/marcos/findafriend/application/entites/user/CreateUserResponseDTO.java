@@ -1,5 +1,6 @@
 package com.marcos.findafriend.application.entites.user;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public record CreateUserResponseDTO(String name, String email, Role role, UUID id) {

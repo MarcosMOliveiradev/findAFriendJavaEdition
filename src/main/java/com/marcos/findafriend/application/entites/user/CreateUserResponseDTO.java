@@ -7,4 +7,9 @@ public record CreateUserResponseDTO(String name, String email, Role role, UUID i
     public CreateUserResponseDTO(User user) {
         this(user.getName(), user.getEmail(), user.getRole(), user.getId());
     }
+
+//    public CreateUserResponseDTO(Optional<User> user) {
+//        var response = user.get();
+//        this(response.getName(), response.getEmail(), response.getRole(), response.getId());
+//    }
 }

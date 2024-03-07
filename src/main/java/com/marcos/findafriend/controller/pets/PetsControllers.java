@@ -1,14 +1,13 @@
 package com.marcos.findafriend.controller.pets;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.marcos.findafriend.application.entites.pets.Pets;
 import com.marcos.findafriend.application.entites.pets.PetsDTO;
@@ -37,7 +36,7 @@ public class PetsControllers {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody PetsDTO data, HttpServletRequest request) {
-        var auth = request.getHeader("Authorization");
+        String auth = request.getHeader("Authorization");
         String token = auth.replace("Bearer ", "");
         String email = this.tokenService.validateToken(token);
 
@@ -56,5 +55,22 @@ public class PetsControllers {
         List<PetsResponseDTO> list = this.listPetsUseCase.listPets();
 
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<?> listForid(HttpServletRequest request, @PathVariable("id") String id) throws URISyntaxException, IOException, InterruptedException {
+        String auth = request.getHeader("Authorization");
+        String token = auth.replace("Bearer ", "");
+        String email = this.tokenService.validateToken(token);
+
+        var pet = this.listPetsUseCase.listPetForId(email, UUID.fromString(id));
+
+        if (pet == null) {
+            return ResponseEntity.badRequest().body("Infelizmente o pet escolhido esta em outro estado");
+        }
+
+        PetsResponseDTO response = new PetsResponseDTO(pet);
+
+        return ResponseEntity.ok().body(response);
     }
 }

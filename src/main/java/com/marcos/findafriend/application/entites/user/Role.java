@@ -2,7 +2,8 @@ package com.marcos.findafriend.application.entites.user;
 
 public enum Role {
     USER("user"),
-    ADMIN("admin");
+    ADMIN("admin"),
+    ONG("ong");
 
     private String role;
 
@@ -10,7 +11,7 @@ public enum Role {
         this.role = role;
     }
 
-    public String getRole(){
+    public String getRole() {
         return role;
     }
 }

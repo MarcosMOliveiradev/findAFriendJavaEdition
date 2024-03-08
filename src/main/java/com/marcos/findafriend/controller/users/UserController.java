@@ -21,7 +21,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    
+
     @Autowired
     private final CreateUsersUseCase created;
 
@@ -37,13 +37,14 @@ public class UserController {
     public ResponseEntity<?> create(@Valid @RequestBody UserDTO data) {
         User createUser = this.created.created(data);
 
-       ExceptionDTO UserAlredyExists = new ExceptionDTO("User alredy exists!", 409);
-        if (createUser == null) return ResponseEntity.status(HttpStatus.CONFLICT).body(UserAlredyExists);
+        ExceptionDTO UserAlredyExists = new ExceptionDTO("User alredy exists!", 409);
+        if (createUser == null)
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(UserAlredyExists);
 
-        CreateUserResponseDTO user = new CreateUserResponseDTO(createUser.getName(), createUser.getEmail(), createUser.getRole(), createUser.getId());
+        CreateUserResponseDTO user = new CreateUserResponseDTO(createUser.getName(), createUser.getEmail(),
+                createUser.getRole(), createUser.getId());
         return ResponseEntity.ok().body(user);
     }
-
 
     @GetMapping("/list")
     public ResponseEntity<?> listUser() {

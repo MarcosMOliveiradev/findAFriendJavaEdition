@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.marcos.findafriend.application.entites.ong.Ong;
 import com.marcos.findafriend.application.entites.user.User;
 
 import jakarta.persistence.Entity;
@@ -37,23 +38,27 @@ public class Pets {
     @JoinColumn(name = "users_id")
     private User users;
 
+    @ManyToOne
+    @JoinColumn(name = "ong_id")
+    private Ong ong;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     public Pets() {
     }
-    
+
     public Pets(
-        String name,
-        String descricao,
-        Integer idade,
-        String porte,
-        String energia,
-        String independencia,
-        List<String> fotos,
-        String requisitos,
-        User users
-    ){
+            String name,
+            String descricao,
+            Integer idade,
+            String porte,
+            String energia,
+            String independencia,
+            List<String> fotos,
+            String requisitos,
+            User users,
+            Ong ong) {
         this.name = name;
         this.descricao = descricao;
         this.idade = idade;
@@ -63,5 +68,6 @@ public class Pets {
         this.fotos = fotos;
         this.requisitos = requisitos;
         this.users = users;
+        this.ong = ong;
     }
 }

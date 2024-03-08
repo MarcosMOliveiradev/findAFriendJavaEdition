@@ -19,13 +19,13 @@ public class CreateUsersUseCase {
 
     public User created(UserDTO data) {
 
-        if(this.repository.findByEmail(data.email()) != null) {
+        if (this.repository.findByEmail(data.email()) != null) {
             return null;
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
 
-        User createUser = new User(data.name(), data.email(), data.cep(), data.numero(), data.contato(), encryptedPassword, data.avata(), data.role());
+        User createUser = new User(data.name(), data.email(), data.cep(), encryptedPassword, data.avata(), data.role());
         return this.repository.save(createUser);
     }
 }

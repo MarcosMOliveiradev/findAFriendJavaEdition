@@ -32,7 +32,6 @@ public class ListPetsUseCase {
         return list;
     }
 
-
     public Pets listPetForId(String email, UUID id) throws URISyntaxException, IOException, InterruptedException {
         User user = this.usersRepositories.findUserByEmail(email);
         GetLocateUser Locate = new GetLocateUser();
@@ -42,8 +41,7 @@ public class ListPetsUseCase {
         Optional<Pets> pet = this.petsRepositories.findById(id);
         Pets ong = pet.get();
 
-        String cepOng = Locate.getLocate(ong.getUsers().getCep());
-
+        String cepOng = Locate.getLocate(ong.getOng().getCep());
 
         if (!userLocate.equals(cepOng)) {
             return null;

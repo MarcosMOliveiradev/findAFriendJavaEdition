@@ -22,23 +22,25 @@ public class SecurityConfigurations {
     SecurityFilter securityFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        return  httpSecurity
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests( authority -> authority
-                    .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/pets").hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.GET, "/users/list").hasRole("ADMIN")
-                    .anyRequest().authenticated())
+                .authorizeHttpRequests(authority -> authority
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/pets").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users/list").hasRole("ADMIN")
+                        .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedHandler(new ResposneAccessDenied()))
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling.accessDeniedHandler(new ResposneAccessDenied()))
                 .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

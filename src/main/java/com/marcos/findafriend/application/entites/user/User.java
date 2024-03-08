@@ -16,11 +16,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @Entity(name = "users")
@@ -35,12 +33,7 @@ public class User implements UserDetails {
 
     @Email(message = "O campo [email] deve conter um Email valido!")
     private String email;
-
     private String cep;
-    private Integer numero;
-
-    @NotBlank(message = "O numero para contato é obrigatório!")
-    private String contato;
 
     @Length(min = 6, max = 100)
     private String password;
@@ -50,12 +43,10 @@ public class User implements UserDetails {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public User(String name, String email, String cep, Integer numero, String contato, String password, String avata, Role role){
+    public User(String name, String email, String cep, String password, String avata, Role role) {
         this.name = name;
         this.email = email;
         this.cep = cep;
-        this.numero = numero;
-        this.contato = contato;
         this.password = password;
         this.avata = avata;
         this.role = role;
@@ -63,8 +54,15 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == Role.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == Role.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        if (this.role == Role.ONG) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ONG"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+        }
     }
 
     @Override

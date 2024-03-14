@@ -24,7 +24,7 @@ public class CreatePetsUseCase {
 
     public Pets create(String email, PetsDTO data) {
         User user = this.usersRepositories.findUserByEmail(email);
-        Ong ong = this.ongRepositories.findByUserId(user.getId());
+        Ong ong = this.ongRepositories.findByUserId(user);
 
         if (user.getRole() == Role.USER)
             return null;

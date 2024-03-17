@@ -11,4 +11,4 @@ public class FindafriendApplication {
 	}
 }
 
-//TODO: Criar metodo de craição de ong e repassar id para criação de pet
+//TODO: Criar metodo de criação de ong e repassar id para criação de pet
